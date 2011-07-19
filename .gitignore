@@ -1,4 +1,15 @@
 .bundle
-db/*.sqlite3
+config/database.yml
+doc/app
+*_packaged.js
+*_packaged.css
+*~
+db/*.db
 log/*.log
-tmp/
+pkg
+tmp
+.DS_Store
+.svn
+TAGS
+public/tmp
+*.tmproj
