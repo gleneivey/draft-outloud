@@ -19,6 +19,22 @@ at:
 
     https://www.pivotaltracker.com/projects/tbd
 
+
+## Structure of a Draft book ##
+
+Draft Outload displays books written using the DocBook XML markup.  It
+fetches the content for the book from a git repository, processes it
+using style sheets from the same repository into HTML for display and
+PDF for download.  The HTML is displayed using a combination of the
+CSS built into Draft Outloud and included in the git repository along
+with the book's content.
+
+The repository also contains metadata about the book specifically for
+display in the Draft Outloud web application, including custom home
+page content, headers, and footers.
+
+
+
 ----------------------------------------------------------------
 
     Permission is granted to copy, distribute and/or modify this

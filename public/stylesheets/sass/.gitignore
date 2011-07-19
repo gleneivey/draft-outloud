@@ -1,0 +1,17 @@
+.bundle
+config/database.yml
+app/views/layouts/_dynamic_alert_content.html
+doc/app
+*_packaged.js
+*_packaged.css
+*~
+db/*.db
+log/*.log
+pkg
+tmp
+.DS_Store
+.svn
+TAGS
+public/tmp
+spec/datasets/tmp
+*.tmproj
