@@ -17,10 +17,10 @@ Documentation is located in its GitHub wiki, and bug reporting uses
 GitHub Issues.  The development roadmap is located in Pivotal Tracker
 at:
 
-    https://www.pivotaltracker.com/projects/tbd
+    https://www.pivotaltracker.com/projects/342047
 
 
-## Structure of a Draft book ##
+## Structure of a Draft Book ##
 
 Draft Outload displays books written using the DocBook XML markup.  It
 fetches the content for the book from a git repository, processes it
@@ -32,6 +32,28 @@ with the book's content.
 The repository also contains metadata about the book specifically for
 display in the Draft Outloud web application, including custom home
 page content, headers, and footers.
+
+
+## Configuring Draft Outloud ##
+
+As a Ruby-on-Rails web application, Draft Outloud expects to be
+configured to use a SQL database.  As installed, it includes a sample
+database configuration file:  `config/database-mysql-development.yml`.
+
+Within the database is a special single-row table, `book_info`, that
+contains the information that Draft Outloud uses to load the book
+content that it presents.  Data must be loaded into this table "by
+hand" prior to running Draft Outload.  The entries are:
+
+ + *`title`* This text string is the title of the book that this
+instance of Draft Outloud is presenting.  It is used on the home page
+and elsewhere.
+ + *`git_url`* This text string is the git URL of the repository from
+which Draft Outloud will fetch the book's content from.
+ + *`book_root_file`* This string is a _relative_ file name/path to
+the root XML file for the book.  This should be the file that includes
+all of the other files in the book (as internal entities or through
+xi:include).
 
 
 
