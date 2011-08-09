@@ -12,4 +12,5 @@ tmp
 .svn
 TAGS
 public/tmp
+public/stylesheets/*.css
 *.tmproj
