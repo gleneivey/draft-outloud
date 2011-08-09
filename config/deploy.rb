@@ -76,7 +76,7 @@ end
 
 def a2_mongrel_start
   run "cd #{current_path} && " +
-      "bundle exec mongrel_rails start -d -p #{a2_port} -e production -P log/mongrel.pid < /dev/null >& /dev/null"
+      "bundle exec rails server -p #{a2_port} -e production -P log/mongrel.pid < /dev/null >& /dev/null &"
 end
 
 def a2_mongrel_stop
