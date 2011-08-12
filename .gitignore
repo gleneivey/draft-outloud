@@ -4,6 +4,7 @@ doc/app
 *_packaged.js
 *_packaged.css
 *~
+db/schema.rb
 db/*.db
 log/*.log
 pkg
