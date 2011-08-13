@@ -6,6 +6,7 @@ Feature: Site home page displays general information and book's tabel of content
   Scenario: Visit home page
     Given a site for the book "minimal_book"
     When I go to the home page
+    Then I should see "My Book:Explanations" within the page title
     And I should see "My Book" within the title
     And I should see "Explanations for Stuff" within the subtitle
 

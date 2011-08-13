@@ -12,6 +12,8 @@ module HtmlSelectorsHelpers
       "html > body"
     when /^the (notice|error|info) flash$/
       ".flash.#{$1}"
+    when "the page title"
+      "head title"
     when "the title"
       "div.title"
     when "the subtitle"
