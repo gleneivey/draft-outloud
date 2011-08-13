@@ -72,11 +72,15 @@ namespace :deploy do
     a2_mongrel_stop
     a2_mongrel_start
   end
+
+  task :customize do
+    run "cp -r #{get_env('DO_CAP_A2_CUSTOMIZATIONS_DIR')}/* #{release_path}"
+  end
 end
 
 def a2_mongrel_start
   run "cd #{current_path} && " +
-      "bundle exec rails server -p #{a2_port} -e production -P log/mongrel.pid < /dev/null >& /dev/null &"
+      "nohup bundle exec rails server -p #{a2_port} -e production -P log/mongrel.pid < /dev/null >& /dev/null &"
 end
 
 def a2_mongrel_stop
