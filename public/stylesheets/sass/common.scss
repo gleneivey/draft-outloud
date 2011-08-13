@@ -1,9 +1,53 @@
+* {
+  margin: 0;
+}
 
+html, body {
+  height: 100%;
+}
+
+
+    //// home page header
+div.title {
+  float: left;
+  padding-left: 40px;
+  padding-right: 15px;
+  font-size: 72px;
+  font-style: italic;
+  color: #444;
+}
+
+div.subtitle {
+  padding-top: 24px;
+  font-size: 40px;
+  font-style: italic;
+  color: #666;
+}
+
+
+    //// common page footer
 #app-footer {
   width: 100%;
   clear: both;
+  padding-left: 15px;
 }
 
 .fine-print {
   font-size: 65%;
+}
+
+.footer-wrapper {
+  border-top: 2px solid #ccf;
+  padding-top: 6px;
+}
+
+        // "sticky footer" implementation
+.body-wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -2em;
+}
+.footer-wrapper, .footer-push {
+  height: 2em;
 }

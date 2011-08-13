@@ -5,7 +5,7 @@ gem 'mongrel'
 gem 'sass'
 gem 'mysql'
 
-group :development do
+group :test, :development do
   gem 'rspec-rails'
   gem 'cucumber-rails'
   gem 'database_cleaner'
