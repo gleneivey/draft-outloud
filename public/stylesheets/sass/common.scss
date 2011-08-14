@@ -26,27 +26,36 @@ div.subtitle {
 
     //// common page footer
 #app-footer {
-  width: 100%;
   clear: both;
   padding-left: 15px;
 }
 
 .fine-print {
-  font-size: 65%;
+  font-size: 8px;
+  color: #555;
 }
 
-.footer-wrapper {
-  border-top: 2px solid #ccf;
-  padding-top: 6px;
+#footer-wrapper {
+  position: relative;
+  border-top: 2px solid #eef;
+  padding-top: 3px;
 }
+
+#book-footer {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  background-color: #fff;
+}
+
 
         // "sticky footer" implementation
-.body-wrapper {
+#body-wrapper {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  margin: 0 auto -2em;
+  margin: 0 auto -18px;
 }
-.footer-wrapper, .footer-push {
-  height: 2em;
+#footer-wrapper, #footer-push {
+  height: 13px;
 }

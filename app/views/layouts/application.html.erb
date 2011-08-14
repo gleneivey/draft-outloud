@@ -7,12 +7,11 @@
     <%= csrf_meta_tag %>
   </head>
   <body>
-    <div class="body-wrapper">
+    <div id="body-wrapper">
       <%= yield %>
-      <div class="footer-push"></div>
+      <div id="footer-push"></div>
     </div>
-    <div class="footer-wrapper">
-      <%= render :partial => "layouts/footer" %>
-    </div>
+
+    <%= render :partial => "layouts/footer" %>
   </body>
 </html>

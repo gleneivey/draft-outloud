@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe "layouts/application.html.erb" do
+  before do
+    assign :book_footer_html, "don't care"
+  end
+
   it "head" do
     page_title = "Stuff"
     assign :page_title, page_title
@@ -9,6 +13,15 @@ describe "layouts/application.html.erb" do
   end
 
   describe "page footer" do
+    it "includes HTML snippet from book content" do
+      snippet = "<div class=\"fu\"><span class='bar'>this is some&mdash;</span> HTML.</div>"
+      assign :book_footer_html, snippet
+
+      render
+
+      rendered.should include snippet
+    end
+
     it "includes 'powered by' references to Draft Outloud" do
       page_title = "Stuff"
       assign :page_title, page_title

@@ -1,11 +1,18 @@
+<div id="footer-wrapper">
 
-<div id="app-footer">
-  <p class="fine-print">
-    Powered by <%= link_to 'Draft Outloud',
-      'https://github.com/gleneivey/draft-outloud/wiki' %>
-    (Copyright &copy; 2011, Glen E. Ivey &mdash;
-     Software and page templates licensed under
-     <%= link_to 'GNU AGPL v3',
-       'http://www.gnu.org/licenses/agpl-3.0.html' %>)
-  </p>
+  <div id="book-footer">
+    <%= @book_footer_html.html_safe %>
+  </div>
+
+  <div id="app-footer">
+    <p class="fine-print">
+      Powered by <%= link_to 'Draft Outloud',
+	'https://github.com/gleneivey/draft-outloud/wiki' %>
+      (Copyright &copy; 2011, Glen E. Ivey &mdash;
+       Software and page templates licensed under
+       <%= link_to 'GNU AGPL v3',
+	 'http://www.gnu.org/licenses/agpl-3.0.html' %>)
+    </p>
+  </div>
+
 </div>
