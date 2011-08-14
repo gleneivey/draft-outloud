@@ -8,7 +8,7 @@ gem 'mysql'
 group :test, :development do
   gem 'rspec-rails'
   gem 'cucumber-rails'
+  gem 'aruba'
   gem 'database_cleaner'
   gem 'capistrano'
 end
-
