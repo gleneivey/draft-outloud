@@ -3,9 +3,10 @@ class ApplicationController < ActionController::Base
 
   before_filter :load_book_footer
 
+  def self.repo_dir() @repo_dir ||= Rails.root.join 'book-repo'; end
   def self.cache_dir() @cache_dir ||= Rails.root.join 'book-cache'; end
   def self.fragments() @fragments ||=
-    ApplicationController.cache_dir.join 'fragments'; end
+    ApplicationController.repo_dir.join 'fragments'; end
   def self.page_footer() @page_footer ||= 
     ApplicationController.fragments.join 'page-footer.html'; end
 
