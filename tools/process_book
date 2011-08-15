@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+git_url = ARGV.shift
+checkout_target = ARGV.shift
+
+#make sure we have a repo
+`git clone #{git_url} book-repo` unless File.exists?("book-repo")
+
+# check out the requested version
+`cd book-repo; git checkout #{checkout_target}`
+
+
+# copy information from the repo to the cache
+web_fragments = File.join("book-cache", "web", "fragments")
+FileUtils.mkpath web_fragments
+%w( page_footer.html ).each do |fragment|
+  FileUtils.copy File.join("book-repo",  "web", "fragments", fragment), web_fragments
+end
