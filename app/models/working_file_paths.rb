@@ -5,5 +5,5 @@ class WorkingFilePaths
   end
 
   def fragments()   @fragments   ||= @directory.join 'fragments'; end
-  def page_footer() @page_footer ||= fragments.join 'page-footer.html'; end
+  def page_footer() @page_footer ||= fragments.join 'page_footer.html'; end
 end
