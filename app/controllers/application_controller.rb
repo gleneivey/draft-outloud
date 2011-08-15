@@ -3,17 +3,14 @@ class ApplicationController < ActionController::Base
 
   before_filter :load_book_footer
 
-  def self.repo_dir() @repo_dir ||= Rails.root.join 'book-repo'; end
-  def self.cache_dir() @cache_dir ||= Rails.root.join 'book-cache'; end
-  def self.fragments() @fragments ||=
-    ApplicationController.repo_dir.join 'fragments'; end
-  def self.page_footer() @page_footer ||= 
-    ApplicationController.fragments.join 'page-footer.html'; end
+  def self.repo_dir()  @repo_dir  ||= WorkingFilePaths.new('book-repo');    end
+  def self.work_dir()  @work_dir  ||= WorkingFilePaths.new('book-working'); end
+  def self.cache_dir() @cache_dir ||= WorkingFilePaths.new('book-cache');   end
 
   private
 
   def load_book_footer
-    return nil unless File.exists?(ApplicationController.page_footer)
-    @book_footer_html = IO.read(ApplicationController.page_footer).strip
+    return nil unless File.exists?(ApplicationController.cache_dir.page_footer)
+    @book_footer_html = IO.read(ApplicationController.cache_dir.page_footer).strip
   end
 end

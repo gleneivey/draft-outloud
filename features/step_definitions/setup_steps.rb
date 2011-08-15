@@ -16,8 +16,8 @@ Given /^a site for the book "(.*)"$/ do |selector|
       :short_title => book[:short_title]
   )
 
-  FileUtils.mkpath ApplicationController.fragments
-  html = File.open(ApplicationController.page_footer, "w")
+  FileUtils.mkpath ApplicationController.cache_dir.fragments
+  html = File.open(ApplicationController.cache_dir.page_footer, "w")
   html.puts book[:page_footer]
   html.close
 end
