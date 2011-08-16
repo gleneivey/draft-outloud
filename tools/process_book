@@ -12,7 +12,12 @@ checkout_target = ARGV.shift
 `cd book-repo; git checkout #{checkout_target}`
 
 
+
 # copy information from the repo to the cache
+if File.exists?(File.join("book-repo",  "web", "public"))
+  FileUtils.cp_r File.join("book-repo",  "web", "public"), "."
+end
+
 web_fragments = File.join("book-cache", "web", "fragments")
 FileUtils.mkpath web_fragments
 %w( page_footer.html ).each do |fragment|

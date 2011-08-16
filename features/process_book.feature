@@ -1,6 +1,6 @@
 Feature: process_book.rb checks out the specified book version and processes it
 
-  Scenario: Clone test repo with original version of page_footer.html
+  Scenario: Process book from clone of repo with original version of page_footer.html
     When I successfully run `../../tools/process_book git://github.com/gleneivey/test-data-for-draft-outloud.git initial-page_footer`
     Then the file "book-cache/web/fragments/page_footer.html" should contain exactly:
       """
@@ -13,7 +13,7 @@ Feature: process_book.rb checks out the specified book version and processes it
 
       """
 
-  Scenario: Checkout test repo with second version of page_footer.html
+  Scenario: Process book from checkout of repo with second version of page_footer.html
     Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
     When I successfully run `../../tools/process_book git://github.com/gleneivey/test-data-for-draft-outloud.git second-page_footer`
     Then the stderr should not contain "fatal: destination path 'book-repo' already exists and is not an empty directory."
@@ -28,3 +28,7 @@ Feature: process_book.rb checks out the specified book version and processes it
 
       """
 
+  Scenario: Process book from checkout of latest repo to content in cache...public
+    Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
+    When I successfully run `../../tools/process_book git://github.com/gleneivey/test-data-for-draft-outloud.git master`
+    Then a file named "public/favicon.ico" should exist
