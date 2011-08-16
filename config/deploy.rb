@@ -56,6 +56,9 @@ role :web, get_env('DO_CAP_WEB_ROLE'), :deploy => false
 role :db,  get_env('DO_CAP_DB_ROLE'), :primary => true
 
 
+
+after "deploy:update_code", "deploy:customize"
+
 namespace :deploy do
   desc "Start the app servers"
   task :start, :roles => :app do
