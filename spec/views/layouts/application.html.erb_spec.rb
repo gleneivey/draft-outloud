@@ -31,9 +31,29 @@ describe "layouts/application.html.erb" do
       rendered.should =~ /Powered by/
       rendered.should have_xpath(
 "//a[@href='https://github.com/gleneivey/draft-outloud/wiki'][.='Draft Outloud']")
-      rendered.should =~ /Copyright/
       rendered.should have_xpath(
 "//a[@href='http://www.gnu.org/licenses/agpl-3.0.html'][.='GNU AGPL v3']")
+    end
+
+    describe "Draft Outloud copyright notice in footer" do
+      it "is included" do
+        Customization.create(
+            :book_title => "My Book",
+            :short_title => "MB"
+          )
+        render
+        rendered.should match /Copyright.*Glen E\. Ivey/
+      end
+
+      it "is omitted" do
+        Customization.create(
+            :book_title => "My Book",
+            :short_title => "MB",
+            :suppress_sw_copyright_notice => true
+          )
+        render
+        rendered.should_not match /Copyright.*Glen E\. Ivey/
+      end
     end
   end
 end
