@@ -25,7 +25,7 @@ describe GenericController do
     it "loads an empty string if the cache is empty" do
       FileUtils.rm_f ApplicationController.cache_dir.page_footer
       get :action
-      assigns[:book_footer_html].should be_nil
+      assigns[:book_footer_html].should == ''
     end
   end
 end

@@ -10,7 +10,8 @@ class ApplicationController < ActionController::Base
   private
 
   def load_book_footer
-    return nil unless File.exists?(ApplicationController.cache_dir.page_footer)
+    @book_footer_html = ''
+    return unless File.exists?(ApplicationController.cache_dir.page_footer)
     @book_footer_html = IO.read(ApplicationController.cache_dir.page_footer).strip
   end
 end
