@@ -9,7 +9,7 @@ checkout_target = ARGV.shift
 `git clone #{git_url} book-repo` unless File.exists?("book-repo")
 
 # check out the requested version
-`cd book-repo; git checkout #{checkout_target}`
+`cd book-repo; git pull; git checkout #{checkout_target}`
 
 
 
