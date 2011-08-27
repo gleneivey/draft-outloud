@@ -37,20 +37,14 @@ describe "layouts/application.html.erb" do
 
     describe "Draft Outloud copyright notice in footer" do
       it "is included" do
-        Customization.create(
-            :book_title => "My Book",
-            :short_title => "MB"
-          )
+        default_customization
         render
         rendered.should match /Copyright.*Glen E\. Ivey/
       end
 
       it "is omitted" do
-        Customization.create(
-            :book_title => "My Book",
-            :short_title => "MB",
-            :suppress_sw_copyright_notice => true
-          )
+        customization = default_customization
+        customization.update_attributes!(:suppress_sw_copyright_notice => true)
         render
         rendered.should_not match /Copyright.*Glen E\. Ivey/
       end

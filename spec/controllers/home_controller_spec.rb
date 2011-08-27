@@ -22,19 +22,14 @@ describe HomeController do
     end
 
     it "handles a book title without a subtitle" do
-      title = "My Book"
-      short = "MB"
-      Customization.create(
-          :book_title => title,
-          :short_title => short,
-          :book_root_file_path => "book/cool-tech.xml"
-        )
+      default_customization
 
       get 'index'
 
-      assigns[:title].should == title
+      assigns[:title].should == "My Book"
       assigns[:subtitle].should be_nil
-      assigns[:page_title].should == short
+      assigns[:page_title].should == "MB"
+      assigns[:book_file_name].should == "my-book"
       response.should be_success
     end
   end

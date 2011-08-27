@@ -3,7 +3,8 @@ BOOK_FIXTURES = {
   "minimal_book" => {
     :book_title => "My Book: Explanations for Stuff",
     :short_title => "My Book:Explanations",
-    :page_footer => "<span style='color: green'>My book is super-cool!</span>"
+    :page_footer => "<span style='color: green'>My book is super-cool!</span>",
+    :root_path => "book/my-book.xml"
   }
 }
 
@@ -13,7 +14,8 @@ Given /^a site for the book "(.*)"$/ do |selector|
 
   Customization.create!(
       :book_title => book[:book_title],
-      :short_title => book[:short_title]
+      :short_title => book[:short_title],
+      :book_root_file_path => book[:root_path]
   )
 
   FileUtils.mkpath ApplicationController.cache_dir.fragments

@@ -25,3 +25,13 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 end
+
+
+
+def default_customization
+  Customization.create(
+    :book_title => "My Book",
+    :short_title => "MB",
+    :book_root_file_path => "book/my-book.xml"
+  )
+end
