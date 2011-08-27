@@ -2,3 +2,4 @@ customization:
   book_title: >-
     Cool-Tech: In a Nutshell
   short_title: Cool-Tech
+  book_root_file_path: book/cool-tech.xml

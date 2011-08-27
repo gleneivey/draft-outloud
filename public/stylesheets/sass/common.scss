@@ -6,6 +6,14 @@ html, body {
   height: 100%;
 }
 
+    //// upper-right corner controls
+.home-controls {
+  float: right;
+  border: 1px solid #eef;
+  padding: 10px 15px;
+  font-size: 12px;
+}
+
 
     //// home page header
 div.title {
