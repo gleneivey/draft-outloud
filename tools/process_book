@@ -2,24 +2,150 @@
 
 require 'fileutils'
 
-git_url = ARGV.shift
-checkout_target = ARGV.shift
+require File.expand_path('../../config/application', __FILE__)
+require 'rake'
 
-#make sure we have a repo
-`git clone #{git_url} book-repo` unless File.exists?("book-repo")
+DraftOutloud::Application.load_tasks
+DraftOutloud::Application.require_environment!
+
+
+
+###########################################################################
+#### helpers
+####
+
+def exit_on_failure(command, id, ok_status = [])
+  ok_status += [0]
+
+  status "    " + command
+  `(#{command}) >>#{@status_file} 2>&1`
+  unless ok_status.include? $?.exitstatus
+    status "FAILED with exit code #{$?.exitstatus}"
+    puts "FAILED with exit code #{$?.exitstatus}"
+    exit id
+  end
+end
+
+def fail(message, id)
+  status message
+  puts message
+  exit id
+end
+
+def classpath(jars)
+  "-cp " + jars.map {|j| File.join(@prefix, 'bin', j) }.join(":")
+end
+
+@status_file = ENV['PROCESS_BOOK_STATUS_FILE'] || File.join('public', 'processing-status.txt')
+`rm #{@status_file} 2>/dev/null`
+def status(message)
+  File.open(@status_file, 'a') {|f| f.puts message }
+end
+
+###########################################################################
+#### get book repository and check-out desired book version
+####
+
+
+home = File.expand_path('../..', __FILE__)
+@prefix = File.join(home, 'toolchain-docbook')
+status "HOME: #{home}"
+status "PREFIX: #{@prefix}"
+
+no_xml = false
+while ((argument = ARGV.shift) && (argument =~ /^--/))
+puts argument
+  case argument
+    when '--no-xml'
+      no_xml = true
+  end
+end
+git_url = argument
+checkout_target = ARGV.shift
+status "GIT URL: #{git_url}"
+status "CHECKOUT TARGET: #{checkout_target}"
+
+# make sure we have a repo
+exit_on_failure("git clone #{git_url} book-repo", 1) unless File.exists?('book-repo')
 
 # check out the requested version
-`cd book-repo; git pull; git checkout #{checkout_target}`
+exit_on_failure "cd book-repo && git pull && git checkout #{checkout_target}", 2
 
 
+###########################################################################
+#### do processing steps that move data from repository to working directory
+####
 
-# copy information from the repo to the cache
-if File.exists?(File.join("book-repo",  "web", "public"))
-  FileUtils.cp_r File.join("book-repo",  "web", "public"), "."
+
+customizations = Customization.all
+fail("no customization info in database", 3) unless customizations
+fail("should only have one customization record", 4) unless customizations.length == 1
+customization = customizations.first
+book_root_file_path = customization.book_root_file_path
+book_file_name = File.basename(book_root_file_path, '.xml')
+xml_file = File.join('book-repo', book_root_file_path)
+fo_file  = File.join('book-working', 'book.fo')
+pdf_file = File.join('book-working', book_file_name + '.pdf')
+
+unless no_xml
+  # validate book's content against DocBook Relax-NG schema
+  command = "java -jar #{File.join(@prefix, 'bin', 'jing.jar')} " + 
+              "-C #{File.join(@prefix, 'schema', 'catalog.xml')} " +
+              "#{File.join(@prefix, 'schema', 'docbook.rng')}"
+  exit_on_failure "#{command} #{xml_file}", 5
+
+
+  # transform book XML into FO
+  command = "java "
+  command += classpath %w( . saxon.jar resolver.jar xercesImpl.jar )
+  command += " -Xmx1G "
+  command += " -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl "
+  command += " -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl "
+  command += " -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=" +
+               "org.apache.xerces.parsers.XIncludeParserConfiguration "
+  command += " com.icl.saxon.StyleSheet "
+  command += " -x org.apache.xml.resolver.tools.ResolvingXMLReader "
+  command += " -y org.apache.xml.resolver.tools.ResolvingXMLReader "
+  command += " -r org.apache.xml.resolver.tools.CatalogResolver "
+  command += " -o #{fo_file} "
+  command += xml_file
+  command += " #{File.join(@prefix, 'style', 'pdf.xsl')} "
+  command += " target.database.document=book-site-pdf.xml "
+  command += " current.docid=book"
+  exit_on_failure(command, 6)
+
+  # transform book FO into monolithic PDF
+  command = "java "
+  command += classpath %w( fop.jar fop-hyph.jar avalon-framework.jar batik-all.jar commons-io.jar
+                           commons-logging.jar xmlgraphics-commons.jar )
+  command += " -Xmx1G "
+  command += " org.apache.fop.cli.Main "
+  command += " -q "
+  command += " -fo #{fo_file} "
+  command += " -pdf #{pdf_file}"
+  exit_on_failure(command, 7)
 end
 
-web_fragments = File.join("book-cache", "web", "fragments")
+
+#### there should be no possibility of errors/failures after this point
+
+
+##########################################################################
+#### copy processing results from working to cache
+####
+FileUtils.copy pdf_file, File.join('public', book_file_name + '.pdf') unless no_xml
+
+
+#### copy information from the repository to the cache
+####
+
+if File.exists?(File.join('book-repo', 'web', 'public'))
+  FileUtils.cp_r File.join('book-repo', 'web', 'public'), '.'
+end
+
+web_fragments = File.join('book-cache', 'web', 'fragments')
 FileUtils.mkpath web_fragments
 %w( page_footer.html ).each do |fragment|
-  FileUtils.copy File.join("book-repo",  "web", "fragments", fragment), web_fragments
+  FileUtils.copy File.join('book-repo',  'web', 'fragments', fragment), web_fragments
 end
+
