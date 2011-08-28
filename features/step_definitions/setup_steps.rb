@@ -5,6 +5,12 @@ BOOK_FIXTURES = {
     :short_title => "My Book:Explanations",
     :page_footer => "<span style='color: green'>My book is super-cool!</span>",
     :root_path => "book/my-book.xml"
+  },
+  "invalid_book" => {
+    :book_title => "My Book: Explanations for Stuff",
+    :short_title => "My Book:Explanations",
+    :page_footer => "<span style='color: green'>My book is super-cool!</span>",
+    :root_path => "book/invalid-xml.xml"
   }
 }
 

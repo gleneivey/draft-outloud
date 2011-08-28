@@ -1,6 +1,5 @@
 Feature: process_book.rb checks out the specified book version and processes it
 
-  @wip
   Scenario: Process book from clone of repo with original version of page_footer.html
     Given a site for the book "minimal_book"
     And a directory named "public"
@@ -34,8 +33,21 @@ Feature: process_book.rb checks out the specified book version and processes it
       """
 
   Scenario: Processing aborts if git clone fails
+    Given a directory named "public"
+    When I run `process_book --no-xml git://github.com/gleneivey/no-such-repository.git master`
+    Then the file "public/processing-status.txt" should contain "Could not find Repository gleneivey/no-such-repository"
+    And a file named "book-cache/web/fragments/page_footer.html" should not exist
+    And a file named "public/my-book.pdf" should not exist
+    And a file named "public/favicon.ico" should not exist
 
   Scenario: Processing aborts if git checkout fails
+    Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
+    And a directory named "public"
+    When I run `process_book --no-xml git://github.com/gleneivey/test-data-for-draft-outloud.git no-such-tag`
+    Then the file "public/processing-status.txt" should contain "pathspec 'no-such-tag' did not match any file(s) known to git"
+    And a file named "book-cache/web/fragments/page_footer.html" should not exist
+    And a file named "public/my-book.pdf" should not exist
+    And a file named "public/favicon.ico" should not exist
 
   Scenario: Process book from checkout of latest repo to content in cache...public
     Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
@@ -43,7 +55,7 @@ Feature: process_book.rb checks out the specified book version and processes it
     And a directory named "public"
     When I successfully run `process_book git://github.com/gleneivey/test-data-for-draft-outloud.git master`
     Then a file named "public/my-book.pdf" should exist
-    Then a file named "public/processing-status.txt" should exist
+    And a file named "public/processing-status.txt" should exist
     And a file named "public/favicon.ico" should exist
     And the file "book-cache/web/fragments/page_footer.html" should contain exactly:
       """
@@ -57,3 +69,12 @@ Feature: process_book.rb checks out the specified book version and processes it
       """
 
   Scenario: Processing of book whose XML doesn't validate aborts, doesn't update cache
+    Given a site for the book "invalid_book"
+    And a directory named "public"
+    When I run `process_book git://github.com/gleneivey/test-data-for-draft-outloud.git master`
+    Then the file "public/processing-status.txt" should match /element .book. not allowed here/
+    Then the file "public/processing-status.txt" should match /error: element .chapter. incomplete/
+    Then the file "public/processing-status.txt" should match /The element type .book. must be terminated/
+    And a file named "book-cache/web/fragments/page_footer.html" should not exist
+    And a file named "public/my-book.pdf" should not exist
+    And a file named "public/favicon.ico" should not exist
