@@ -46,9 +46,11 @@ end
 #### get book repository and check-out desired book version
 ####
 
+xmx = "-Xmx#{ ENV['PROCESS_BOOK_JAVA_MEMORY'] || '750m' }"
 
 home = File.expand_path('../..', __FILE__)
 @prefix = File.join(home, 'toolchain-docbook')
+status "JAVA MEMORY: #{xmx}"
 status "HOME: #{home}"
 status "PREFIX: #{@prefix}"
 
@@ -96,9 +98,8 @@ unless no_xml
 
 
   # transform book XML into FO
-  command = "java "
+  command = "java #{mmx} "
   command += classpath %w( . saxon.jar resolver.jar xercesImpl.jar )
-  command += " -Xmx1G "
   command += " -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl "
   command += " -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl "
   command += " -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=" +
@@ -115,10 +116,9 @@ unless no_xml
   exit_on_failure(command, 6)
 
   # transform book FO into monolithic PDF
-  command = "java "
+  command = "java #{xmx} "
   command += classpath %w( fop.jar fop-hyph.jar avalon-framework.jar batik-all.jar commons-io.jar
                            commons-logging.jar xmlgraphics-commons.jar )
-  command += " -Xmx1G "
   command += " org.apache.fop.cli.Main "
   command += " -q "
   command += " -fo #{fo_file} "
