@@ -91,14 +91,14 @@ pdf_file = File.join('book-working', book_file_name + '.pdf')
 
 unless no_xml
   # validate book's content against DocBook Relax-NG schema
-  command = "java -jar #{File.join(@prefix, 'bin', 'jing.jar')} " + 
+  command = "java #{xmx} -jar #{File.join(@prefix, 'bin', 'jing.jar')} " + 
               "-C #{File.join(@prefix, 'schema', 'catalog.xml')} " +
               "#{File.join(@prefix, 'schema', 'docbook.rng')}"
   exit_on_failure "#{command} #{xml_file}", 5
 
 
   # transform book XML into FO
-  command = "java #{mmx} "
+  command = "java #{xmx} "
   command += classpath %w( . saxon.jar resolver.jar xercesImpl.jar )
   command += " -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl "
   command += " -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl "
