@@ -14,6 +14,15 @@ Feature: process_book.rb checks out the specified book version and processes it
 
 
       """
+    And the file "public/processing-status.html" should contain "NO XML</b>: true"
+    And the file "public/processing-status.html" should contain:
+      """
+      Exiting with status code <b>0</b>.</p>
+          <h3>Done</h3>
+        </body>
+      </html>
+
+      """
 
   Scenario: Process book from checkout of repo with second version of page_footer.html
     Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
@@ -31,11 +40,19 @@ Feature: process_book.rb checks out the specified book version and processes it
 
 
       """
+    And the file "public/processing-status.html" should contain:
+      """
+      Exiting with status code <b>0</b>.</p>
+          <h3>Done</h3>
+        </body>
+      </html>
+
+      """
 
   Scenario: Processing aborts if git clone fails
     Given a directory named "public"
     When I run `process_book --no-xml git://github.com/gleneivey/no-such-repository.git master`
-    Then the file "public/processing-status.txt" should contain "Could not find Repository gleneivey/no-such-repository"
+    Then the file "public/processing-status.html" should contain "Could not find Repository gleneivey/no-such-repository"
     And a file named "book-cache/web/fragments/page_footer.html" should not exist
     And a file named "public/my-book.pdf" should not exist
     And a file named "public/favicon.ico" should not exist
@@ -44,10 +61,19 @@ Feature: process_book.rb checks out the specified book version and processes it
     Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
     And a directory named "public"
     When I run `process_book --no-xml git://github.com/gleneivey/test-data-for-draft-outloud.git no-such-tag`
-    Then the file "public/processing-status.txt" should contain "pathspec 'no-such-tag' did not match any file(s) known to git"
+    Then the file "public/processing-status.html" should contain "pathspec 'no-such-tag' did not match any file(s) known to git"
+    And the file "public/processing-status.html" should contain:
+      """
+      Exiting with status code <b>2</b>.</p>
+          <h3>Done</h3>
+        </body>
+      </html>
+
+      """
     And a file named "book-cache/web/fragments/page_footer.html" should not exist
     And a file named "public/my-book.pdf" should not exist
     And a file named "public/favicon.ico" should not exist
+
 
   Scenario: Process book from checkout of latest repo to content in cache...public
     Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
@@ -55,7 +81,15 @@ Feature: process_book.rb checks out the specified book version and processes it
     And a directory named "public"
     When I successfully run `process_book git://github.com/gleneivey/test-data-for-draft-outloud.git master`
     Then a file named "public/my-book.pdf" should exist
-    And a file named "public/processing-status.txt" should exist
+    And the file "public/processing-status.html" should contain "NO XML</b>: false"
+    And the file "public/processing-status.html" should contain:
+      """
+      Exiting with status code <b>0</b>.</p>
+          <h3>Done</h3>
+        </body>
+      </html>
+
+      """
     And a file named "public/favicon.ico" should exist
     And the file "book-cache/web/fragments/page_footer.html" should contain exactly:
       """
@@ -72,9 +106,17 @@ Feature: process_book.rb checks out the specified book version and processes it
     Given a site for the book "invalid_book"
     And a directory named "public"
     When I run `process_book git://github.com/gleneivey/test-data-for-draft-outloud.git master`
-    Then the file "public/processing-status.txt" should match /element .book. not allowed here/
-    Then the file "public/processing-status.txt" should match /error: element .chapter. incomplete/
-    Then the file "public/processing-status.txt" should match /The element type .book. must be terminated/
+    Then the file "public/processing-status.html" should match /element .book. not allowed here/
+    And the file "public/processing-status.html" should match /error: element .chapter. incomplete/
+    And the file "public/processing-status.html" should match /The element type .book. must be terminated/
+    And the file "public/processing-status.html" should contain:
+      """
+      Exiting with status code <b>5</b>.</p>
+          <h3>Done</h3>
+        </body>
+      </html>
+
+      """
     And a file named "book-cache/web/fragments/page_footer.html" should not exist
     And a file named "public/my-book.pdf" should not exist
     And a file named "public/favicon.ico" should not exist
