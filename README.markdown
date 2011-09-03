@@ -1,5 +1,3 @@
-Draft Outloud "README" file
-
 Copyright (C) 2011 - Glen E. Ivey
   (see the end of this file for copyright/licensing information)
 
@@ -20,10 +18,10 @@ at:  https://www.pivotaltracker.com/projects/342047
 
 Draft Outload displays books written using the DocBook XML markup.  It
 fetches the content for the book from a git repository, processes it
-using style sheets from the same repository into HTML for display and
-PDF for download.  The HTML is displayed using a combination of the
-CSS built into Draft Outloud and included in the git repository along
-with the book's content.
+using standard DocBook XSL style sheets into HTML for display and HTML
+and PDF for download.  The HTML is displayed using a combination of
+the CSS built into Draft Outloud and included in the git repository
+along with the book's content.
 
 The repository also contains metadata about the book specifically for
 display in the Draft Outloud web application, including custom home
@@ -39,18 +37,10 @@ database configuration file:  `config/database-mysql-development.yml`.
 Within the database is a special single-row table, `book_info`, that
 contains the information that Draft Outloud uses to load the book
 content that it presents.  Data must be loaded into this table "by
-hand" prior to running Draft Outload.  The entries are:
+hand" prior to running Draft Outload.
 
- + *`title`* This text string is the title of the book that this
-instance of Draft Outloud is presenting.  It is used on the home page
-and elsewhere.
- + *`git_url`* This text string is the git URL of the repository from
-which Draft Outloud will fetch the book's content from.
- + *`book_root_file`* This string is a _relative_ file name/path to
-the root XML file for the book.  This should be the file that includes
-all of the other files in the book (as internal entities or through
-xi:include).
-
+These two mechanisms are described in the Draft Outloud wiki at
+https://github.com/gleneivey/draft-outloud/wiki/Customizing-a-Draft-Outloud-Installation
 
 
 ----------------------------------------------------------------
