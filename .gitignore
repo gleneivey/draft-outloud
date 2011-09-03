@@ -3,6 +3,7 @@ book-working
 book-cache
 toolchain-docbook/style/docbook-xsl-ns
 toolchain-docbook/output
+toolchain-docbook/book.*
 *.tar.gz
 *.zip
 *.jar

@@ -21,10 +21,11 @@ java -cp bin:bin/saxon.jar:bin/resolver.jar:bin/xercesImpl.jar -Xmx1G \
       target.database.document=book-site-html.xml \
       current.docid=book
 
-exit
+
 # don't need olink processing yet
 
 # XML -> FO -> PDF
+echo
 echo 'XML to FO'
 java -cp bin:bin/saxon.jar:bin/resolver.jar:bin/xercesImpl.jar -Xmx1G \
       -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl \
