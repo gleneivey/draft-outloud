@@ -11,13 +11,13 @@ of a book while it is being written.
 
 The project is hosted on GitHub at:
 
-    https://github.com/gleneivey/draft-outloud
+    [https://github.com/gleneivey/draft-outloud](https://github.com/gleneivey/draft-outloud)
 
 Documentation is located in its GitHub wiki, and bug reporting uses
 GitHub Issues.  The development roadmap is located in Pivotal Tracker
 at:
 
-    https://www.pivotaltracker.com/projects/342047
+    [https://www.pivotaltracker.com/projects/342047](https://www.pivotaltracker.com/projects/342047)
 
 
 ## Structure of a Draft Book ##
@@ -66,5 +66,5 @@ xi:include).
 
     You should have received a copy of the GNU Free Documentation
     License along with document in the file COPYING.DOCUMENTATION.  If
-    not, see <http://www.gnu.org/licenses/>.
+    not, see http://www.gnu.org/licenses/.
 
