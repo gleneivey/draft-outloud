@@ -139,13 +139,30 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     end
   end
 
+  def saxon_command
+    "java #{@xmx} " +
+      classpath(%w( . saxon.jar resolver.jar xercesImpl.jar )) +
+      " -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl " +
+      " -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl " +
+      " -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=" +
+          "org.apache.xerces.parsers.XIncludeParserConfiguration " +
+      " com.icl.saxon.StyleSheet " +
+      " -x org.apache.xml.resolver.tools.ResolvingXMLReader " +
+      " -y org.apache.xml.resolver.tools.ResolvingXMLReader " +
+      " -r org.apache.xml.resolver.tools.CatalogResolver "
+  end
+
+  def xslt_arguments
+    " target.database.document=book-site-pdf.xml " +
+    " current.docid=book"
+  end
 
 
   ###########################################################################
   #### get book repository and check-out desired book version
   ####
 
-  xmx = "-Xmx#{ ENV['PROCESS_BOOK_JAVA_MEMORY'] || '750m' }"
+  @xmx = "-Xmx#{ ENV['PROCESS_BOOK_JAVA_MEMORY'] || '750m' }"
 
   home = File.expand_path('../..', __FILE__)
   @prefix = File.join(home, 'toolchain-docbook')
@@ -166,7 +183,7 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     f.puts "      <p><b>GIT URL</b>: #{git_url}</p>"
     f.puts "      <p><b>CHECKOUT TARGET</b>: #{checkout_target}</p>"
     f.puts "      <p><b>NO XML</b>: #{no_xml}</p>"
-    f.puts "      <p><b>JAVA MEMORY</b>: #{xmx}</p>"
+    f.puts "      <p><b>JAVA MEMORY</b>: #{@xmx}</p>"
     f.puts "      <p><b>HOME</b>: #{home}</p>"
     f.puts "      <p><b>PREFIX</b>: #{@prefix}</p>"
     f.puts "    </div>"
@@ -198,32 +215,22 @@ begin # catch any exceptions from anywhere, put stack trace in status file
 
   unless no_xml
     # validate book's content against DocBook Relax-NG schema
-    command = "java #{xmx} -jar #{File.join(@prefix, 'bin', 'jing.jar')} " + 
+    command = "java #{@xmx} -jar #{File.join(@prefix, 'bin', 'jing.jar')} " +
                 "-C #{File.join(@prefix, 'schema', 'catalog.xml')} " +
                 "#{File.join(@prefix, 'schema', 'docbook.rng')}"
     execute_done_on_failure "#{command} #{xml_file}", 5
 
 
     # transform book XML into FO
-    command = "java #{xmx} "
-    command += classpath %w( . saxon.jar resolver.jar xercesImpl.jar )
-    command += " -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl "
-    command += " -Djavax.xml.parsers.SAXParserFactory=org.apache.xerces.jaxp.SAXParserFactoryImpl "
-    command += " -Dorg.apache.xerces.xni.parser.XMLParserConfiguration=" +
-                 "org.apache.xerces.parsers.XIncludeParserConfiguration "
-    command += " com.icl.saxon.StyleSheet "
-    command += " -x org.apache.xml.resolver.tools.ResolvingXMLReader "
-    command += " -y org.apache.xml.resolver.tools.ResolvingXMLReader "
-    command += " -r org.apache.xml.resolver.tools.CatalogResolver "
+    command = saxon_command
     command += " -o #{fo_file} "
     command += xml_file
     command += " #{File.join(@prefix, 'style', 'pdf.xsl')} "
-    command += " target.database.document=book-site-pdf.xml "
-    command += " current.docid=book"
+    command += xslt_arguments
     execute_done_on_failure(command, 6)
 
     # transform book FO into monolithic PDF
-    command = "java #{xmx} "
+    command = "java #{@xmx} "
     command += classpath %w( fop.jar fop-hyph.jar avalon-framework.jar batik-all.jar commons-io.jar
                              commons-logging.jar xmlgraphics-commons.jar )
     command += " org.apache.fop.cli.Main "
@@ -231,6 +238,13 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     command += " -fo #{fo_file} "
     command += " -pdf #{pdf_file}"
     execute_done_on_failure(command, 7)
+
+    # transform book XML into monolithic HTML
+    command = saxon_command
+    command += xml_file
+    command += " #{File.join(@prefix, 'style', 'onechunk.xsl')} "
+    command += xslt_arguments
+    execute_done_on_failure(command, 8)
   end
 
 
@@ -245,6 +259,11 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     copy_to = File.join('public', book_file_name + '.pdf')
     executing "cp #{pdf_file} #{copy_to}"
     FileUtils.copy pdf_file, copy_to
+
+    copy_from = File.join('output', 'index.html')
+    copy_to = File.join('public', book_file_name + '.html')
+    executing "cp #{copy_from} #{copy_to}"
+    FileUtils.copy copy_from, copy_to
   end
 
   #### copy information from the repository to the cache
@@ -276,7 +295,7 @@ rescue => e
     f.puts "      #{e.message}"
     f.puts "    </p>"
     f.puts "    <pre class='exception'>"
-    f.puts "      #{e.backtrace}"
+    f.puts "      " + e.backtrace.join("\n")
     f.puts "    </pre>"
     f.fsync
   end

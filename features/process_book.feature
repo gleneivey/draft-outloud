@@ -80,6 +80,7 @@ Feature: process_book.rb checks out the specified book version and processes it
     And a directory named "public"
     When I successfully run `process_book git://github.com/gleneivey/test-data-for-draft-outloud.git master`
     Then a file named "public/my-book.pdf" should exist
+    And the file "public/my-book.html" should match /<a id=".+".>Chapter.2\..The Real Content<.h2><.div><.div><.div><p>\s*Middle chapters talk about the stuff the book's really supposed to be/
     And the file "public/processing-status.html" should contain "NO XML</b>: false"
     And the file "public/processing-status.html" should contain:
       """
