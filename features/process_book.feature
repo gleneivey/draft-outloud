@@ -74,7 +74,6 @@ Feature: process_book.rb checks out the specified book version and processes it
     And a file named "public/my-book.pdf" should not exist
     And a file named "public/favicon.ico" should not exist
 
-
   Scenario: Process book from checkout of latest repo to content in cache...public
     Given I run `git clone git://github.com/gleneivey/test-data-for-draft-outloud.git book-repo`
     And a site for the book "minimal_book"

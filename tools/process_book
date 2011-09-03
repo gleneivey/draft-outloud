@@ -68,6 +68,9 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     f.puts "      p.exception {"
     f.puts "        color: #ff2020;"
     f.puts "      }"
+    f.puts "      p.executing tt {"
+    f.puts "        font-weight: bold;"
+    f.puts "      }"
     f.puts "    </style>"
     f.puts "  </head>"
     f.puts "  <body>"
@@ -83,7 +86,17 @@ begin # catch any exceptions from anywhere, put stack trace in status file
   def status(message, classname='')
     File.open(@status_file, 'a') do |f|
       f.puts "    <p class='#{classname}'>"
-      f.puts time + message
+      f.puts "      " + time + message
+      f.puts "    </p>"
+      f.fsync
+    end
+  end
+
+  def executing(message)
+    File.open(@status_file, 'a') do |f|
+      f.puts "    <p class='executing'>"
+      f.puts "      #{time}"
+      f.puts "      executing$ <tt>#{message}</tt>"
       f.puts "    </p>"
       f.fsync
     end
@@ -114,7 +127,7 @@ begin # catch any exceptions from anywhere, put stack trace in status file
 
     File.open(@status_file, 'a') do |f|
       f.puts "    <pre>"
-      f.puts output
+      f.puts "      #{output}"
       f.puts "    </pre>"
       f.fsync
     end
@@ -139,7 +152,6 @@ begin # catch any exceptions from anywhere, put stack trace in status file
 
   no_xml = false
   while ((argument = ARGV.shift) && (argument =~ /^--/))
-  puts argument
     case argument
       when '--no-xml'
         no_xml = true
@@ -228,20 +240,28 @@ begin # catch any exceptions from anywhere, put stack trace in status file
   ##########################################################################
   #### copy processing results from working to cache
   ####
-  FileUtils.copy pdf_file, File.join('public', book_file_name + '.pdf') unless no_xml
 
+  unless no_xml
+    copy_to = File.join('public', book_file_name + '.pdf')
+    executing "cp #{pdf_file} #{copy_to}"
+    FileUtils.copy pdf_file, copy_to
+  end
 
   #### copy information from the repository to the cache
   ####
 
   if File.exists?(File.join('book-repo', 'web', 'public'))
-    FileUtils.cp_r File.join('book-repo', 'web', 'public'), '.'
+    copy_from = File.join('book-repo', 'web', 'public')
+    executing "cp -r #{copy_from} ."
+    FileUtils.cp_r copy_from, '.'
   end
 
   web_fragments = File.join('book-cache', 'web', 'fragments')
   FileUtils.mkpath web_fragments
   %w( page_footer.html ).each do |fragment|
-    FileUtils.copy File.join('book-repo',  'web', 'fragments', fragment), web_fragments
+    copy_from = File.join('book-repo',  'web', 'fragments', fragment)
+    executing "cp #{copy_from} #{web_fragments}"
+    FileUtils.copy copy_from, web_fragments
   end
 
 
@@ -256,7 +276,7 @@ rescue => e
     f.puts "      #{e.message}"
     f.puts "    </p>"
     f.puts "    <pre class='exception'>"
-    f.puts e.backtrace
+    f.puts "      #{e.backtrace}"
     f.puts "    </pre>"
     f.fsync
   end
