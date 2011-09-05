@@ -1,6 +1,10 @@
 book-repo
 book-working
 book-cache
+output
+public/tmp
+public/stylesheets/*.css
+public/processing-status.html
 toolchain-docbook/style/docbook-xsl-ns
 toolchain-docbook/output
 toolchain-docbook/book.*
@@ -9,14 +13,13 @@ toolchain-docbook/book.*
 *.jar
 
 .bundle
+.sass-cache
 config/database.yml
 doc/app
 db/*.db
 log/*.log
 pkg
 tmp
-public/tmp
-public/stylesheets/*.css
 
 *_packaged.js
 *_packaged.css
