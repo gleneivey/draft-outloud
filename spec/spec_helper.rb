@@ -29,7 +29,7 @@ end
 
 
 def default_customization
-  Customization.create(
+  Customization.create!(
     :book_title => "My Book",
     :short_title => "MB",
     :book_root_file_path => "book/my-book.xml"

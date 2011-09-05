@@ -71,5 +71,28 @@ div.subtitle {
 
         // toc entry layouts
 div#toc {
-  margin: 10px;
+  margin: 20px;
 }
+
+div#toc div.entry {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+div#toc span.text {
+  font-weight: bold;
+}
+
+$per-level-indent: 24px;
+//div.level0
+div.level1 { margin-left: $per-level-indent; }
+div.level2 { margin-left: $per-level-indent * 2; }
+div.level3 { margin-left: $per-level-indent * 3; }
+div.level4 { margin-left: $per-level-indent * 4; }
+div.level5 { margin-left: $per-level-indent * 5; }
+div.level6 { margin-left: $per-level-indent * 6; }
+div.level7 { margin-left: $per-level-indent * 7; }
+div.level8 { margin-left: $per-level-indent * 8; }
+div.level9 { margin-left: $per-level-indent * 9; }
+div.no-level { margin-left: 40%; }
+

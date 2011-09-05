@@ -20,12 +20,6 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     "-cp " + jars.map {|j| File.join(@prefix, 'bin', j) }.join(":")
   end
 
-  def fail(message, id)
-    status message
-    puts message
-    done id
-  end
-
 
   #### for the status file
 
@@ -113,6 +107,12 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     exit status_code
   end
 
+  def fail(message, id)
+    status message
+    puts message
+    done id
+  end
+
   def execute_done_on_failure(command, id, ok_status = [])
     ok_status += [0]
 
@@ -155,6 +155,20 @@ begin # catch any exceptions from anywhere, put stack trace in status file
   def xslt_arguments
     " target.database.document=book-site-pdf.xml " +
     " current.docid=book"
+  end
+
+
+  def first_non_div_tag_under(parent_node)
+    parent_node.children.each do |node|
+      if node.type == 1 && node.name != 'div'
+        return node
+      else
+        maybe_node = first_non_div_tag_under node
+        return maybe_node if maybe_node
+      end
+    end
+
+    nil
   end
 
 
@@ -214,6 +228,8 @@ begin # catch any exceptions from anywhere, put stack trace in status file
   pdf_file = File.join('book-working', book_file_name + '.pdf')
 
   unless no_xml
+    @content_update = ContentUpdate.create! :checkout_target => checkout_target
+
     # validate book's content against DocBook Relax-NG schema
     command = "java #{@xmx} -jar #{File.join(@prefix, 'bin', 'jing.jar')} " +
                 "-C #{File.join(@prefix, 'schema', 'catalog.xml')} " +
@@ -245,25 +261,87 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     command += " #{File.join(@prefix, 'style', 'onechunk.xsl')} "
     command += xslt_arguments
     execute_done_on_failure(command, 8)
-  end
 
 
-  #### there should be no possibility of errors/failures after this point
+
+    #### digest HTML for book into our local database
+
+    monolithic_html_file_name = File.join('output', 'index.html')
+    monolithic_html_file = File.open monolithic_html_file_name
+    monolithic_html = Nokogiri::HTML monolithic_html_file do |config|
+      config.noent.xinclude.noblanks.nocdata.nonet.strict
+    end
+
+    # process document, do depth-first recursion to find all TOC entry elements
+    TOC_CLASSES = %w(
+        set book part chapter appendix bridgehead glossary index sidebar
+        sect1 sect2 sect3 sect4 sect5 section simplesect
+    )
+    def toc_elements_from_html_to_db(parent_node)
+      parent_node.children.each do |node|
+        if node.type == 1 && node.name == 'div' &&
+            TOC_CLASSES.include?(node['class']) && node['title'].present?
+          anchor = node.css('a').first
+          tag = first_non_div_tag_under node
+          if tag
+            indent_level = 20
+            name = tag.name
+            if name == 'h1'
+              indent_level = case node['class']
+                when 'part'
+                  1
+                when 'book'
+                  0
+                when 'set'
+                  -1
+                else
+                  19
+              end
+            elsif name =~ /^h(\d+)$/
+              indent_level = $1.to_i
+            end
+          end
+p node['title'].bytes.collect
+          TocEntry.create!(
+              :content_update => @content_update,
+              :docbook_element => node['class'],
+              :entry_text => node['title'],
+              :html_anchor => anchor ? anchor['id'] : nil,
+              :indent_level => indent_level
+          )
+        end
+        toc_elements_from_html_to_db node
+      end
+    end
+
+    toc_elements_from_html_to_db monolithic_html.css('body').first
 
 
-  ##########################################################################
-  #### copy processing results from working to cache
-  ####
+    # normalize indentation numbers for imported TOC items
+    toc_entries = @content_update.toc_entries
+    used_levels = toc_entries.each.map(&:indent_level).uniq.sort
+    toc_entries.each do |entry|
+      old_level = entry.indent_level
+      new_level = old_level <= 15 ? used_levels.index(old_level) : nil
+      entry.update_attribute(:indent_level, new_level)
+    end
 
-  unless no_xml
+
+    #### there should be no possibility of errors/failures after this point
+    @content_update.update_attribute(:successful, true)
+
+
+    ##########################################################################
+    #### copy processing results from working to cache
+    ####
+
     copy_to = File.join('public', book_file_name + '.pdf')
     executing "cp #{pdf_file} #{copy_to}"
     FileUtils.copy pdf_file, copy_to
 
-    copy_from = File.join('output', 'index.html')
     copy_to = File.join('public', book_file_name + '.html')
-    executing "cp #{copy_from} #{copy_to}"
-    FileUtils.copy copy_from, copy_to
+    executing "cp #{monolithic_html_file_name} #{copy_to}"
+    FileUtils.copy monolithic_html_file_name, copy_to
   end
 
   #### copy information from the repository to the cache

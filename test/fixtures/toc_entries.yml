@@ -1,0 +1,249 @@
+
+entry219:
+  id: 219
+  docbook_element: set
+  entry_text: Cool-Tech Library
+  html_anchor: d0e1
+  indent_level: 0
+  content_update_id: 1
+
+entry220:
+  id: 220
+  docbook_element: book
+  entry_text:  >-
+    Cool-Tech: In a Nutshell
+  html_anchor: d0e4
+  indent_level: 1
+  content_update_id: 1
+
+entry221:
+  id: 221
+  docbook_element: part
+  entry_text: Part I. Overview
+  html_anchor: d0e7
+  indent_level: 2
+  content_update_id: 1
+
+entry222:
+  id: 222
+  docbook_element: chapter
+  entry_text: Chapter 1. Introduction
+  html_anchor: d0e10
+  indent_level: 3
+  content_update_id: 1
+
+entry223:
+  id: 223
+  docbook_element: sidebar
+  entry_text: A Few Other Thoughts
+  html_anchor: NULL
+  indent_level: NULL
+  content_update_id: 1
+
+entry224:
+  id: 224
+  docbook_element: chapter
+  entry_text: Chapter 2. The Real Content
+  html_anchor: d0e20
+  indent_level: 3
+  content_update_id: 1
+
+entry225:
+  id: 225
+  docbook_element: sect1
+  entry_text: First Major Section
+  html_anchor: d0e25
+  indent_level: 3
+  content_update_id: 1
+
+entry226:
+  id: 226
+  docbook_element: sect2
+  entry_text: A Subsection
+  html_anchor: d0e28
+  indent_level: 4
+  content_update_id: 1
+
+entry227:
+  id: 227
+  docbook_element: sect3
+  entry_text: Third-Level Subsection
+  html_anchor: d0e31
+  indent_level: 5
+  content_update_id: 1
+
+entry228:
+  id: 228
+  docbook_element: sect4
+  entry_text: Fourth-Level Subsection
+  html_anchor: d0e34
+  indent_level: 6
+  content_update_id: 1
+
+entry229:
+  id: 229
+  docbook_element: sect5
+  entry_text: Fifth-Level Subsection
+  html_anchor: d0e37
+  indent_level: 7
+  content_update_id: 1
+
+entry230:
+  id: 230
+  docbook_element: sect2
+  entry_text: Another Subsection
+  html_anchor: d0e42
+  indent_level: 4
+  content_update_id: 1
+
+entry231:
+  id: 231
+  docbook_element: sect1
+  entry_text: Second Major Section
+  html_anchor: d0e47
+  indent_level: 3
+  content_update_id: 1
+
+entry232:
+  id: 232
+  docbook_element: simplesect
+  entry_text: This
+  html_anchor: d0e52
+  indent_level: 4
+  content_update_id: 1
+
+entry233:
+  id: 233
+  docbook_element: simplesect
+  entry_text: That
+  html_anchor: d0e57
+  indent_level: 4
+  content_update_id: 1
+
+entry234:
+  id: 234
+  docbook_element: simplesect
+  entry_text: The Other
+  html_anchor: d0e62
+  indent_level: 4
+  content_update_id: 1
+
+entry235:
+  id: 235
+  docbook_element: chapter
+  entry_text: Chapter 3. A Chapter of Unnumbered Sections
+  html_anchor: d0e67
+  indent_level: 3
+  content_update_id: 1
+
+entry236:
+  id: 236
+  docbook_element: section
+  entry_text: First Section
+  html_anchor: d0e70
+  indent_level: 3
+  content_update_id: 1
+
+entry237:
+  id: 237
+  docbook_element: section
+  entry_text: First sub-subsection
+  html_anchor: d0e73
+  indent_level: 4
+  content_update_id: 1
+
+entry238:
+  id: 238
+  docbook_element: section
+  entry_text: Second sub-subsection
+  html_anchor: d0e78
+  indent_level: 4
+  content_update_id: 1
+
+entry239:
+  id: 239
+  docbook_element: section
+  entry_text: Second Section
+  html_anchor: d0e83
+  indent_level: 3
+  content_update_id: 1
+
+entry240:
+  id: 240
+  docbook_element: simplesect
+  entry_text: First Leaf Subsection
+  html_anchor: d0e86
+  indent_level: 4
+  content_update_id: 1
+
+entry241:
+  id: 241
+  docbook_element: simplesect
+  entry_text: Second Leaf Subsection
+  html_anchor: d0e91
+  indent_level: 4
+  content_update_id: 1
+
+entry242:
+  id: 242
+  docbook_element: part
+  entry_text: Part II. References
+  html_anchor: d0e96
+  indent_level: 2
+  content_update_id: 1
+
+entry243:
+  id: 243
+  docbook_element: chapter
+  entry_text: Chapter 4. Cool-Tech Commands
+  html_anchor: d0e99
+  indent_level: 3
+  content_update_id: 1
+
+entry244:
+  id: 244
+  docbook_element: chapter
+  entry_text: Chapter 5. Conclusion
+  html_anchor: d0e104
+  indent_level: 3
+  content_update_id: 1
+
+entry245:
+  id: 245
+  docbook_element: appendix
+  entry_text: Appendix A. Fiddly Bits We Didn't Want to Address Elsewhere
+  html_anchor: d0e109
+  indent_level: 3
+  content_update_id: 1
+
+entry246:
+  id: 246
+  docbook_element: glossary
+  entry_text: Glossary
+  html_anchor: d0e114
+  indent_level: 3
+  content_update_id: 1
+
+entry247:
+  id: 247
+  docbook_element: index
+  entry_text: Index
+  html_anchor: d0e115
+  indent_level: 3
+  content_update_id: 1
+
+entry248:
+  id: 248
+  docbook_element: book
+  entry_text: Cool-Tech for Dummies
+  html_anchor: d0e116
+  indent_level: 1
+  content_update_id: 1
+
+entry249:
+  id: 249
+  docbook_element: chapter
+  entry_text: Chapter 1. One Chapter
+  html_anchor: d0e119
+  indent_level: 3
+  content_update_id: 1

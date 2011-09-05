@@ -5,3 +5,17 @@
 
 <div class="title"><%= @title -%></div>
 <div class="subtitle"><%= @subtitle -%></div>
+
+<div id="toc">
+  <% @toc_entry_hashes.each do |entry|
+       level_class = entry[:level].blank? ? 'no-level' :
+	   "level#{entry[:level]}"
+   %>
+    <div class="entry <%= level_class -%>">
+      <% if entry[:number].present? %>
+	<span class="number"><%= entry[:number] -%></span>
+      <% end %>
+      <span class="text"><%= entry[:text] -%></span>
+    </div>
+  <% end %>
+</div>

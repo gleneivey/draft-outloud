@@ -10,7 +10,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110827053731) do
+ActiveRecord::Schema.define(:version => 20110905061505) do
+
+  create_table "content_updates", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "checkout_target"
+    t.boolean  "successful",      :default => false
+  end
 
   create_table "customizations", :force => true do |t|
     t.string   "book_title",                                      :null => false
@@ -19,6 +26,14 @@ ActiveRecord::Schema.define(:version => 20110827053731) do
     t.datetime "updated_at"
     t.boolean  "suppress_sw_copyright_notice", :default => false, :null => false
     t.string   "book_root_file_path",                             :null => false
+  end
+
+  create_table "toc_entries", :force => true do |t|
+    t.string  "docbook_element"
+    t.string  "entry_text"
+    t.string  "html_anchor"
+    t.integer "indent_level"
+    t.integer "content_update_id", :null => false
   end
 
 end
