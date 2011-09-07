@@ -11,8 +11,8 @@ class HomeController < ApplicationController
 
     @toc_entry_hashes = []
     toc_entries = []
-    content_entries = ContentUpdate.where('successful = 1').last
-    if content_entries && toc_entries = content_update.toc_entries
+    content_update = ContentUpdate.where('successful = 1').last
+    if content_update && (toc_entries = content_update.toc_entries)
       toc_entries.each do |entry|
         text_sections = entry.entry_text.split(NONBREAKING_SPACE)
         number = text_sections.length == 1 ? nil :
