@@ -3,9 +3,7 @@
 begin # catch any exceptions from anywhere, put stack trace in status file
       # and exit cleanly
 
-  require 'fileutils'
-
-  require File.expand_path('../../config/application', __FILE__)
+  require File.join(File.dirname(__FILE__), '..', 'config', 'application')
   require 'rake'
 
   DraftOutloud::Application.load_tasks
@@ -367,17 +365,23 @@ begin # catch any exceptions from anywhere, put stack trace in status file
 
   done 0
 rescue => e
-  File.open(@status_file, 'a') do |f|
-    f.puts "    <p class='exception'>"
-    f.puts "      #{time}"
-    f.puts "      <b>Got exception:</b>"
-    f.puts "      #{e.message}"
-    f.puts "    </p>"
-    f.puts "    <pre class='exception'>"
-    f.puts "      " + e.backtrace.join("\n")
-    f.puts "    </pre>"
-    f.fsync
-  end
+  if @status_file
+    File.open(@status_file, 'a') do |f|
+      f.puts "    <p class='exception'>"
+      f.puts "      #{time}"
+      f.puts "      <b>Got exception:</b>"
+      f.puts "      #{e.message}"
+      f.puts "    </p>"
+      f.puts "    <pre class='exception'>"
+      f.puts "      " + e.backtrace.join("\n")
+      f.puts "    </pre>"
+      f.fsync
+    end
 
-  done 999
+    done 999
+  else
+    puts e.message
+    puts e.backtrace.join("\n")
+    exit 998
+  end
 end
