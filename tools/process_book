@@ -265,11 +265,10 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     #### digest HTML for book into our local database
 
     monolithic_html_file_name = File.join('output', 'index.html')
-    monolithic_html_file = File.open monolithic_html_file_name
-    monolithic_html = Nokogiri::HTML monolithic_html_file do |config|
+    monolithic_html_content = IO.read monolithic_html_file_name
+    monolithic_html = Nokogiri::HTML monolithic_html_content do |config|
       config.noent.xinclude.noblanks.nocdata.nonet.strict
     end
-    monolithic_html_file.close
 
     # process document, do depth-first recursion to find all TOC entry elements
     TOC_CLASSES = %w(
