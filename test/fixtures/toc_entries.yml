@@ -1,19 +1,11 @@
 
-entry219:
-  id: 219
-  docbook_element: set
-  entry_text: Cool-Tech Library
-  html_anchor: d0e1
-  indent_level: 0
-  content_update_id: 1
-
 entry220:
   id: 220
   docbook_element: book
   entry_text:  >-
     Cool-Tech: In a Nutshell
   html_anchor: d0e4
-  indent_level: 1
+  indent_level: 0
   content_update_id: 1
 
 entry221:
@@ -21,7 +13,7 @@ entry221:
   docbook_element: part
   entry_text: Part I. Overview
   html_anchor: d0e7
-  indent_level: 2
+  indent_level: 1
   content_update_id: 1
 
 entry222:
@@ -29,7 +21,7 @@ entry222:
   docbook_element: chapter
   entry_text: Chapter 1. Introduction
   html_anchor: d0e10
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
 
 entry223:
@@ -133,7 +125,7 @@ entry235:
   docbook_element: chapter
   entry_text: Chapter 3. A Chapter of Unnumbered Sections
   html_anchor: d0e67
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
 
 entry236:
@@ -189,7 +181,7 @@ entry242:
   docbook_element: part
   entry_text: Part II. References
   html_anchor: d0e96
-  indent_level: 2
+  indent_level: 1
   content_update_id: 1
 
 entry243:
@@ -197,7 +189,7 @@ entry243:
   docbook_element: chapter
   entry_text: Chapter 4. Cool-Tech Commands
   html_anchor: d0e99
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
 
 entry244:
@@ -205,7 +197,7 @@ entry244:
   docbook_element: chapter
   entry_text: Chapter 5. Conclusion
   html_anchor: d0e104
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
 
 entry245:
@@ -213,7 +205,7 @@ entry245:
   docbook_element: appendix
   entry_text: Appendix A. Fiddly Bits We Didn't Want to Address Elsewhere
   html_anchor: d0e109
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
 
 entry246:
@@ -221,7 +213,7 @@ entry246:
   docbook_element: glossary
   entry_text: Glossary
   html_anchor: d0e114
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
 
 entry247:
@@ -229,7 +221,7 @@ entry247:
   docbook_element: index
   entry_text: Index
   html_anchor: d0e115
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
 
 entry248:
@@ -237,7 +229,7 @@ entry248:
   docbook_element: book
   entry_text: Cool-Tech for Dummies
   html_anchor: d0e116
-  indent_level: 1
+  indent_level: 0
   content_update_id: 1
 
 entry249:
@@ -245,5 +237,5 @@ entry249:
   docbook_element: chapter
   entry_text: Chapter 1. One Chapter
   html_anchor: d0e119
-  indent_level: 3
+  indent_level: 2
   content_update_id: 1
