@@ -81,6 +81,7 @@ GEM
     highline (1.6.2)
     hike (1.2.1)
     i18n (0.6.0)
+    johnson (1.2.0)
     json (1.5.4)
     json_pure (1.5.4)
       spruz (~> 0.2.8)
@@ -182,6 +183,7 @@ DEPENDENCIES
   capistrano
   cucumber-rails
   database_cleaner
+  johnson
   mongrel
   mysql
   nokogiri
