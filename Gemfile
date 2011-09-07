@@ -7,6 +7,7 @@ gem 'nokogiri'
 
 group :assets do
   gem 'sass-rails'
+  gem 'uglifier'
 end
 
 group :test, :development do
