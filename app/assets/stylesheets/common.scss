@@ -1,3 +1,9 @@
+$very-light-blue: #eef;
+$dark-text-grey: #444;
+$light-text-grey: #666;
+$fine-print-color: #555;
+
+
 * {
   margin: 0;
 }
@@ -9,7 +15,7 @@ html, body {
     //// upper-right corner controls
 .home-controls {
   float: right;
-  border: 1px solid #eef;
+  border: 1px solid $very-light-blue;
   padding: 10px 15px;
   font-size: 12px;
 }
@@ -21,14 +27,14 @@ div.title {
   padding-right: 15px;
   font-size: 72px;
   font-style: italic;
-  color: #444;
+  color: $dark-text-grey;
 }
 
 div.subtitle {
   padding-left: 60px;
   font-size: 40px;
   font-style: italic;
-  color: #666;
+  color: $light-text-grey;
 }
 
 
@@ -40,12 +46,12 @@ div.subtitle {
 
 .fine-print {
   font-size: 8px;
-  color: #555;
+  color: $fine-print-color;
 }
 
 #footer-wrapper {
   position: relative;
-  border-top: 2px solid #eef;
+  border-top: 2px solid $very-light-blue;
   padding-top: 3px;
 }
 
@@ -53,7 +59,7 @@ div.subtitle {
   position: absolute;
   bottom: 20px;
   width: 100%;
-  background-color: #fff;
+  background-color: white;
 }
 
 
@@ -72,27 +78,40 @@ div.subtitle {
         // toc entry layouts
 div#toc {
   margin: 20px;
+  margin-left: 35px;
+
+  div.entry {
+    font-size: 16px;
+    margin-bottom: 5px;
+    position: relative;
+
+    span.text {
+      font-weight: bold;
+    }
+  }
+
+  div.entry div.tool-widget {
+    display: none;
+  }
+  div.entry:hover div.tool-widget {
+    display: block;
+    position: absolute;
+    left: -22px;
+    width: 22px;
+    background-color: $very-light-blue;
+    font-size: 16px;
+  }
+
+  $per-level-indent: 24px;
+  div.level0 { font-style: italic;                 font-size: 20px; }
+  div.level1 { margin-left: $per-level-indent;     font-size: 20px; }
+  div.level2 { margin-left: $per-level-indent * 2; font-size: 18px; }
+  div.level3 { margin-left: $per-level-indent * 3; font-size: 18px; }
+  div.level4 { margin-left: $per-level-indent * 4; font-size: 16px; }
+  div.level5 { margin-left: $per-level-indent * 5; font-size: 16px; }
+  div.level6 { margin-left: $per-level-indent * 6; font-size: 14px; }
+  div.level7 { margin-left: $per-level-indent * 7; font-size: 14px; }
+  div.level8 { margin-left: $per-level-indent * 8; font-size: 12px; }
+  div.level9 { margin-left: $per-level-indent * 9; font-size: 12px; }
+  div.no-level { margin-left: 40%;                 font-size: 12px; }
 }
-
-div#toc div.entry {
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
-div#toc span.text {
-  font-weight: bold;
-}
-
-$per-level-indent: 24px;
-//div.level0
-div.level1 { margin-left: $per-level-indent; }
-div.level2 { margin-left: $per-level-indent * 2; }
-div.level3 { margin-left: $per-level-indent * 3; }
-div.level4 { margin-left: $per-level-indent * 4; }
-div.level5 { margin-left: $per-level-indent * 5; }
-div.level6 { margin-left: $per-level-indent * 6; }
-div.level7 { margin-left: $per-level-indent * 7; }
-div.level8 { margin-left: $per-level-indent * 8; }
-div.level9 { margin-left: $per-level-indent * 9; }
-div.no-level { margin-left: 40%; }
-
