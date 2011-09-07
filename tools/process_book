@@ -271,6 +271,7 @@ begin # catch any exceptions from anywhere, put stack trace in status file
     monolithic_html = Nokogiri::HTML monolithic_html_file do |config|
       config.noent.xinclude.noblanks.nocdata.nonet.strict
     end
+    monolithic_html_file.close
 
     # process document, do depth-first recursion to find all TOC entry elements
     TOC_CLASSES = %w(
@@ -301,7 +302,7 @@ begin # catch any exceptions from anywhere, put stack trace in status file
               indent_level = $1.to_i
             end
           end
-p node['title'].bytes.collect
+
           TocEntry.create!(
               :content_update => @content_update,
               :docbook_element => node['class'],
