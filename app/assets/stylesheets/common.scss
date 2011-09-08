@@ -1,4 +1,5 @@
 $very-light-blue: #eef;
+$dark-blue: #006;
 $dark-text-grey: #444;
 $light-text-grey: #666;
 $fine-print-color: #555;
@@ -80,7 +81,17 @@ div#toc {
   margin: 20px;
   margin-left: 35px;
 
+//  div.contentof {                // debug
+//    border: 1px solid black;
+//    padding: 10px;
+//  }
+
+  div.contentof.folded {
+    display: none;
+  }
+
   div.entry {
+    clear: both;
     font-size: 16px;
     margin-bottom: 5px;
     position: relative;
@@ -90,17 +101,53 @@ div#toc {
     }
   }
 
+  div.entry div.expandable {
+    display: block;
+    float: left;
+    width: 22px;
+    height: 22px;
+    color: $dark-blue;
+  }
+  div.entry.expanded div.expandable {
+    color: white;
+  }
+
   div.entry div.tool-widget {
     display: none;
   }
   div.entry:hover div.tool-widget {
     display: block;
     position: absolute;
-    left: -22px;
+    left: 0;
+    top: 0;
     width: 22px;
+    height: 22px;
     background-color: $very-light-blue;
     font-size: 16px;
   }
+  div.folded.entry:hover {
+    div.pointer {   // triangle-right
+      margin-top: 6px;
+      margin-left: 5px;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-left: 12px solid $dark-blue;
+      border-bottom: 5px solid transparent;
+    }
+  }
+  div.expanded.entry:hover {
+    div.pointer {   // triangle-down
+      margin-top: 5px;
+      margin-left: 6px;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 12px solid $dark-blue;
+    }
+  }
+
 
   $per-level-indent: 24px;
   div.level0 { font-style: italic;                 font-size: 20px; }

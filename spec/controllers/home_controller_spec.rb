@@ -48,22 +48,22 @@ describe HomeController do
       hashes.first[:level].should == 0 # true regardless of book content
 
       # fixture dependent
-      hashes.length.should == 31
+      hashes.length.should == 30
       ## handles entry with XSLT-generated numbering
-      hashes[2][:text].should == 'Overview'
-      hashes[2][:number].should == 'Part I.'
+      hashes[1][:text].should == 'Overview'
+      hashes[1][:number].should == 'Part I.'
+      hashes[1][:level].should == 1
+      hashes[2][:text].should == 'Introduction'
+      hashes[2][:number].should == 'Chapter 1.'
       hashes[2][:level].should == 2
-      hashes[3][:text].should == 'Introduction'
-      hashes[3][:number].should == 'Chapter 1.'
-      hashes[3][:level].should == 3
       ## handles entry without auto-numbering
-      hashes[6][:text].should == 'First Major Section'
-      hashes[6][:number].should be_nil
-      hashes[6][:level].should == 3
+      hashes[5][:text].should == 'First Major Section'
+      hashes[5][:number].should be_nil
+      hashes[5][:level].should == 3
       ## handles entries outside the normal nesting sequence
-      hashes[4][:text].should == 'A Few Other Thoughts'
-      hashes[4][:number].should be_nil
-      hashes[4][:level].should be_nil
+      hashes[3][:text].should == 'A Few Other Thoughts'
+      hashes[3][:number].should be_nil
+      hashes[3][:level].should be_nil
     end
 
     it "list TOC entries from latest successful update" do
@@ -112,6 +112,7 @@ describe HomeController do
         hash[:number].should == nil
         hash[:text].should == successful_toc[i][1]
         hash[:level].should == successful_toc[i][0]
+        hash[:id].should == "a#{i}"
       end
     end
   end

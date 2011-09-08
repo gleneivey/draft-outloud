@@ -27,12 +27,13 @@ describe "home/index.html.erb" do
 
     toc_entry_hashes.each do |hash|
       level_class = hash[:level].blank? ? 'no-level' : "level#{hash[:level]}"
+      default_expand = hash[:level] == 0 ? 'expanded' : 'folded'
 
-      rendered.should have_xpath "//div[@class='entry #{level_class}']/span[@class='text'][.='#{hash[:text]}']"
+      rendered.should have_xpath "//div[@class='entry #{level_class} #{default_expand}']/span[@class='text'][.='#{hash[:text]}']"
       if hash[:number].present?
-        rendered.should have_xpath "//div[@class='entry #{level_class}']/span[@class='number'][.='#{hash[:number]}']"
+        rendered.should have_xpath "//div[@class='entry #{level_class} #{default_expand}']/span[@class='number'][.='#{hash[:number]}']"
       else
-        rendered.should_not have_xpath "//div[@class='entry #{level_class}']/span[@class='number']"
+        rendered.should_not have_xpath "//div[@class='entry #{level_class} #{default_expand}']/span[@class='number']"
       end
     end
   end

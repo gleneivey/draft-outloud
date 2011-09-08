@@ -20,7 +20,8 @@ class HomeController < ApplicationController
         @toc_entry_hashes << {
             :number => number,
             :text => text_sections.last,
-            :level => entry.indent_level
+            :level => entry.indent_level,
+            :id => entry.html_anchor
         }
       end
     end

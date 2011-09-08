@@ -7,16 +7,78 @@
 <div class="subtitle"><%= @subtitle -%></div>
 
 <div id="toc">
-  <% @toc_entry_hashes.each do |entry|
-       level_class = entry[:level].blank? ? 'no-level' :
-	   "level#{entry[:level]}"
-   %>
-    <div class="entry <%= level_class -%>">
-      <div class="tool-widget">X</div>
-      <% if entry[:number].present? %>
-	<span class="number"><%= entry[:number] -%></span>
-      <% end %>
-      <span class="text"><%= entry[:text] -%></span>
-    </div>
-  <% end %>
+  <% nesting_stack = []
+     last_elements_level = nil
+     last_elements_id = nil
+     last_default_expand = nil
+
+     @toc_entry_hashes.each do |entry|
+
+       if entry[:level].blank?
+         level_class = 'no-level'
+         level = 20
+       else
+	 level_class = "level#{entry[:level]}"
+         level = entry[:level]
+       end
+       default_expand = entry[:level] == 0 ? 'expanded' : 'folded'
+
+       if last_elements_level && last_elements_level < level
+         nesting_stack.push( {
+             :level => last_elements_level,
+             :id => last_elements_id
+         } )
+
+         %>
+
+         <div id="contentof-<%= last_elements_id -%>"
+              class="contentof <%= last_default_expand -%>">
+    <% end
+
+       while last_elements_level && last_elements_level > level
+         last = nesting_stack.pop
+         last_elements_level = last ? last[:level] : nil
+     %>
+         </div>
+    <% end %>
+
+       <% if entry[:id].present? %>
+            <div id="<%= entry[:id] =%>"
+       <% else %>
+            <div
+       <% end %>
+	    class="entry <%= level_class -%> <%= default_expand -%>">
+         <div class="expandable">+</div>
+	 <div class="tool-widget">
+	   <div class="pointer"></div>
+	 </div>
+	 <% if entry[:number].present? %>
+	   <span class="number"><%= entry[:number] -%></span>
+	 <% end %>
+	 <span class="text"><%= entry[:text] -%></span>
+       </div>
+
+  <%   last_elements_level = level
+       last_elements_id    = entry[:id]
+       last_default_expand = default_expand
+     end %>
 </div>
+
+<script type="text/javascript">
+  jQuery.each( jQuery('div.entry'),
+      function(i, elem){
+        var id = elem.id;
+        if (!jQuery('div#contentof-' + id).get(0)){
+          jQuery('.expandable', elem).html('&nbsp;');
+          jQuery('.pointer', elem).remove();
+        }
+      }
+  );
+
+  jQuery('div.tool-widget').click(function() {
+    var entry = jQuery(this).closest('div.entry');
+    entry.toggleClass('expanded folded');
+    entry = entry.get(0);
+    jQuery('div#contentof-' + entry.id).toggleClass('expanded folded');
+  });
+</script>
