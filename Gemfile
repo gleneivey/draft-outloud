@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.0'
+gem 'jquery-rails'
 gem 'mongrel'
 gem 'mysql'
 gem 'nokogiri'
