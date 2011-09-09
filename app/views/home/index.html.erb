@@ -61,7 +61,13 @@
   <%   last_elements_level = level
        last_elements_id    = entry[:id]
        last_default_expand = default_expand
-     end %>
+     end
+
+     while x=nesting_stack.pop
+p "HELLO #{x}"
+ %>
+       </div>
+  <% end %>
 </div>
 
 <script type="text/javascript">
