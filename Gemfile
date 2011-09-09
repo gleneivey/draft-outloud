@@ -9,6 +9,7 @@ gem 'nokogiri'
 group :assets do
   gem 'sass-rails'
   gem 'uglifier'
+  gem 'therubyracer' # a JS runtime for execjs for uglifier
 end
 
 group :test, :development do
