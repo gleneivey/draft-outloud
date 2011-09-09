@@ -17,7 +17,7 @@ toolchain-docbook/book.*
 config/database.yml
 doc/app
 db/*.db
-log/*.log
+log
 pkg
 tmp
 

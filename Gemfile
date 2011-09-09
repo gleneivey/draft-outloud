@@ -9,7 +9,6 @@ gem 'nokogiri'
 group :assets do
   gem 'sass-rails'
   gem 'uglifier'
-  gem 'johnson'     # Ruby-embedded JavaScript interpreter for uglifier
 end
 
 group :test, :development do
