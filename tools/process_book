@@ -287,13 +287,20 @@ begin # catch any exceptions from anywhere, put stack trace in status file
             if name == 'h1'
               indent_level = case node['class']
                 when 'part'
-                  1
-                when 'book'
                   0
-                when 'set'
+                when 'book'
                   -1
+                when 'set'
+                  -2
                 else
                   19
+              end
+            elsif name == 'h2'
+              indent_level = case node['class']
+                when 'chapter', 'appendix', 'glossary', 'index'
+                  1
+                else
+                  2
               end
             elsif name =~ /^h(\d+)$/
               indent_level = $1.to_i
