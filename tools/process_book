@@ -275,6 +275,8 @@ begin # catch any exceptions from anywhere, put stack trace in status file
         set book part chapter appendix bridgehead glossary index sidebar
         sect1 sect2 sect3 sect4 sect5 section simplesect
     )
+    $discarded_top_level_entry = false
+
     def toc_elements_from_html_to_db(parent_node)
       parent_node.children.each do |node|
         if node.type == 1 && node.name == 'div' &&
@@ -307,13 +309,17 @@ begin # catch any exceptions from anywhere, put stack trace in status file
             end
           end
 
-          TocEntry.create!(
-              :content_update => @content_update,
-              :docbook_element => node['class'],
-              :entry_text => node['title'],
-              :html_anchor => anchor ? anchor['id'] : nil,
-              :indent_level => indent_level
-          )
+	  if $discarded_top_level_entry
+	    TocEntry.create!(
+		:content_update => @content_update,
+		:docbook_element => node['class'],
+		:entry_text => node['title'],
+		:html_anchor => anchor ? anchor['id'] : nil,
+		:indent_level => indent_level
+	    )
+          else
+            $discarded_top_level_entry = true
+          end
         end
         toc_elements_from_html_to_db node
       end
