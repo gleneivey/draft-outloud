@@ -1,0 +1,28 @@
+
+
+div#toc {
+  .iOS-tool-opener {
+      // duplicate of :hover div.tool-widget
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 22px;
+    height: 22px;
+
+    z-index: -1;
+
+    img {
+      width: 18px;
+      height: 18px;
+      padding-top: 2px;
+      padding-left: 2px;
+    }
+  }
+
+  div.entry.expanded {
+    .iOS-tool-opener {
+      z-index: 0;
+    }
+  }
+}

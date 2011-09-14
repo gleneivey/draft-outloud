@@ -107,15 +107,18 @@ div#toc {
     width: 22px;
     height: 22px;
     color: $dark-blue;
+    padding-left: 5px;
   }
   div.entry.expanded div.expandable {
     color: white;
+    z-index: -5;
   }
 
   div.entry div.tool-widget {
     display: none;
   }
-  div.entry:hover div.tool-widget {
+  div.entry:hover div.tool-widget,
+  div.entry div.tool-widget.force-show {
     display: block;
     position: absolute;
     left: 0;
@@ -125,7 +128,8 @@ div#toc {
     background-color: $very-light-blue;
     font-size: 16px;
   }
-  div.folded.entry:hover {
+  div.folded.entry:hover,
+  div.folded.entry.force-show {
     div.pointer {   // triangle-right
       margin-top: 6px;
       margin-left: 5px;
@@ -136,7 +140,8 @@ div#toc {
       border-bottom: 5px solid transparent;
     }
   }
-  div.expanded.entry:hover {
+  div.expanded.entry:hover,
+  div.expanded.entry.force-show {
     div.pointer {   // triangle-down
       margin-top: 5px;
       margin-left: 6px;
@@ -161,4 +166,8 @@ div#toc {
   div.level8 { margin-left: $per-level-indent * 8; font-size: 12px; }
   div.level9 { margin-left: $per-level-indent * 9; font-size: 12px; }
   div.no-level { margin-left: 40%;                 font-size: 12px; }
+}
+
+.iOS-tool-opener {
+  display: none;
 }

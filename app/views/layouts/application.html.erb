@@ -5,6 +5,16 @@
     <%= stylesheet_link_tag 'application' %>
     <%= javascript_include_tag 'application' %>
     <%= csrf_meta_tag %>
+
+    <link rel="stylesheet"
+        media="only screen and (max-device-width: 480px)"
+        type="text/css" href="/assets/iOS.css" />
+    <link rel="stylesheet"
+        media="only screen and (-webkit-min-device-pixel-ratio: 2)"
+        type="text/css" href="/assets/iOS.css" />
+    <link rel="stylesheet"
+        media="only screen and (max-device-width: 1024px)"
+        type="text/css" href="/assets/iOS.css" />
   </head>
   <body>
     <div id="body-wrapper">

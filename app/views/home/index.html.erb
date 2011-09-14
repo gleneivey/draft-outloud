@@ -49,6 +49,9 @@
        <% end %>
 	    class="entry <%= level_class -%> <%= default_expand -%>">
          <div class="expandable">+</div>
+	 <div class="iOS-tool-opener">
+	   <%= image_tag 'emblem-system-2.png' %>
+	 </div>
 	 <div class="tool-widget">
 	   <div class="pointer"></div>
 	 </div>
@@ -85,5 +88,12 @@
     entry.toggleClass('expanded folded');
     entry = entry.get(0);
     jQuery('div#contentof-' + entry.id).toggleClass('expanded folded');
+  });
+
+  jQuery('div.iOS-tool-opener').bind('touch', function() {
+    jQuery(this).closest('div.entry').toggleClass('force-show');
+    jQuery(this).closest('div.entry').
+        find('div.tool-widget').
+        toggleClass('force-show');
   });
 </script>
