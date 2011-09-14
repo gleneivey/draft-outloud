@@ -9,9 +9,16 @@
   <body>
     <div id="body-wrapper">
       <%= yield %>
+
+      <div id="footer-spacer"></div>
       <div id="footer-push"></div>
     </div>
 
     <%= render :partial => "layouts/footer" %>
+
+    <script type="text/javascript">
+      var h = document.getElementById('book-footer').scrollHeight;
+      document.getElementById('footer-spacer').style.height = (h+10)+"px";
+    </script>
   </body>
 </html>
