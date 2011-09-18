@@ -9,6 +9,7 @@ describe Customization do
 
   it "validates" do
     required_attributes = {
+      :repository_url => "git://github.com/gleneivey/some-repo.git",
       :book_title => "title: subtitle",
       :short_title => "title",
       :book_root_file_path => "book/book.xml"

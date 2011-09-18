@@ -30,6 +30,8 @@ end
 
 def default_customization
   Customization.create!(
+    :repository_url =>
+        "git://github.com/gleneivey/test-data-for-draft-outloud.git",
     :book_title => "My Book",
     :short_title => "MB",
     :book_root_file_path => "book/my-book.xml"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110905061505) do
+ActiveRecord::Schema.define(:version => 20110918204200) do
 
   create_table "content_updates", :force => true do |t|
     t.datetime "created_at"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20110905061505) do
     t.datetime "updated_at"
     t.boolean  "suppress_sw_copyright_notice", :default => false, :null => false
     t.string   "book_root_file_path",                             :null => false
+    t.string   "repository_url",                                  :null => false
   end
 
   create_table "toc_entries", :force => true do |t|

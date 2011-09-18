@@ -8,7 +8,9 @@ describe HomeController do
       short_title = "Cool Book"
       subtitle = "everything I know"
       file_name = "my-book"
+      some_repo = "git://github.com/gleneivey/some-repo.git"
       Customization.create!(
+          :repository_url => some_repo,
           :book_title => short_title+": "+subtitle,
           :short_title => short_title,
           :book_root_file_path => "book/#{file_name}.xml"
@@ -37,6 +39,7 @@ describe HomeController do
 
     it "lists book's TOC entries" do
       Customization.create!(
+        :repository_url => "git://github.com/gleneivey/some-repo.git",
         :book_title => "Cool-Tech: In a Nutshell",
         :short_title => "Cool-Tech",
         :book_root_file_path => "book/cool-tech.xml"

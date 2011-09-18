@@ -186,9 +186,15 @@ begin # catch any exceptions from anywhere, put stack trace in status file
         no_xml = true
     end
   end
-  git_url = argument
-  checkout_target = ARGV.shift
+  checkout_target = argument || 'master'
+  # next_argument = ARGV.shift
 
+  customizations = Customization.all
+  fail("no customization info in database", 3) unless customizations && customizations.length > 0
+  fail("should only have one customization record", 4) unless customizations.length == 1
+  customization = customizations.first
+  git_url = customization.repository_url
+  
   File.open(@status_file, 'a') do |f|
     f.puts "    <div class='config-list'>"
     f.puts "      <p>#{Time.now}</p>"
@@ -215,10 +221,6 @@ begin # catch any exceptions from anywhere, put stack trace in status file
   ####
 
 
-  customizations = Customization.all
-  fail("no customization info in database", 3) unless customizations
-  fail("should only have one customization record", 4) unless customizations.length == 1
-  customization = customizations.first
   book_root_file_path = customization.book_root_file_path
   book_file_name = File.basename(book_root_file_path, '.xml')
   xml_file = File.join('book-repo', book_root_file_path)
