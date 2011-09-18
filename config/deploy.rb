@@ -76,6 +76,11 @@ namespace :deploy do
     a2_mongrel_start
   end
 
+  task :symlink_shared, :roles => :web do
+    run "ln -sf  #{shared_path}/book-repo #{release_path}/book-repo"
+    run "ln -sf  #{shared_path}/docbook-xsl-ns #{release_path}/toolchain-docbooki/style/docbook-xsl-ns"
+  end
+
   task :customize do
     run "cp -r #{get_env('DO_CAP_A2_CUSTOMIZATIONS_DIR')}/* #{release_path}"
   end
