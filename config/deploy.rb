@@ -58,6 +58,9 @@ role :db,  get_env('DO_CAP_DB_ROLE'), :primary => true
 
 
 after "deploy:update_code", "deploy:customize"
+after "deploy:symlink", "deploy:symlink_shared"
+
+
 
 namespace :deploy do
   desc "Start the app servers"
@@ -78,7 +81,7 @@ namespace :deploy do
 
   task :symlink_shared, :roles => :web do
     run "ln -sf  #{shared_path}/book-repo #{release_path}/book-repo"
-    run "ln -sf  #{shared_path}/docbook-xsl-ns #{release_path}/toolchain-docbooki/style/docbook-xsl-ns"
+    run "ln -sf  #{shared_path}/docbook-xsl-ns #{release_path}/toolchain-docbook/style/docbook-xsl-ns"
   end
 
   task :customize do
