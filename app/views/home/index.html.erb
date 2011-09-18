@@ -90,10 +90,12 @@
     jQuery('div#contentof-' + entry.id).toggleClass('expanded folded');
   });
 
-  jQuery('div.iOS-tool-opener').bind('touch', function() {
+  var opener = function() {
     jQuery(this).closest('div.entry').toggleClass('force-show');
     jQuery(this).closest('div.entry').
         find('div.tool-widget').
         toggleClass('force-show');
-  });
+  };
+  jQuery('div.iOS-tool-opener').bind('touch', opener);
+  jQuery('div.expandable').bind('touch', opener);
 </script>
