@@ -35,7 +35,7 @@
               class="contentof <%= last_default_expand -%>">
     <% end
 
-       while last_elements_level && last_elements_level > level
+       while last_elements_level && nesting_stack.length > 0 && last_elements_level > level
          last = nesting_stack.pop
          last_elements_level = last ? last[:level] : nil
      %>
