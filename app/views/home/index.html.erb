@@ -48,13 +48,6 @@
             <div
        <% end %>
 	    class="entry <%= level_class -%> <%= default_expand -%>">
-         <div class="expandable">+</div>
-	 <div class="iOS-tool-opener">
-	   <%= image_tag 'emblem-system-2.png' %>
-	 </div>
-	 <div class="tool-widget">
-	   <div class="pointer"></div>
-	 </div>
 	 <% if entry[:number].present? %>
 	   <span class="number"><%= entry[:number] -%></span>
 	 <% end %>
@@ -75,6 +68,15 @@
 <script type="text/javascript">
   jQuery.each( jQuery('div.entry'),
       function(i, elem){
+        jQuery(elem).find('span').first().before('                           \
+	   <div class="expandable">+</div>                                   \
+	   <div class="iOS-tool-opener">                                     \
+	     <%= image_tag 'emblem-system-2.png' %>                          \
+	   </div>                                                            \
+	   <div class="tool-widget">                                         \
+	     <div class="pointer"></div>                                     \
+	   </div>');
+
         var id = elem.id;
         if (!jQuery('div#contentof-' + id).get(0)){
           jQuery('.expandable', elem).html('&nbsp;');
