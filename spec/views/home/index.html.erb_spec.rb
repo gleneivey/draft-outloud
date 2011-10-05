@@ -58,7 +58,7 @@ describe "home/index.html.erb" do
 
     render
 
-    rendered.should have_xpath "id('toc')/div[@class='entry level1 folded']/span[.='Before-a-Part Chapter']"
-    rendered.should have_xpath "id('toc')/div[@class='entry level0 expanded']/span[.='Part the First']"
+    rendered.should have_xpath "//div[@id='toc']/div[@class='entry level1 folded']/span[.='Before-a-Part Chapter']"
+    rendered.should have_xpath "//div[@id='toc']/div[@class='entry level0 expanded']/span[.='Part the First']"
   end
 end
