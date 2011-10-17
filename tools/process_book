@@ -157,20 +157,6 @@ begin # catch any exceptions from anywhere, put stack trace in status file
   end
 
 
-  def first_non_div_tag_under(parent_node)
-    parent_node.children.each do |node|
-      if node.type == 1 && node.name != 'div'
-        return node
-      else
-        maybe_node = first_non_div_tag_under node
-        return maybe_node if maybe_node
-      end
-    end
-
-    nil
-  end
-
-
   ###########################################################################
   #### get book repository and check-out desired book version
   ####
@@ -229,7 +215,7 @@ begin # catch any exceptions from anywhere, put stack trace in status file
   pdf_file = File.join('book-working', book_file_name + '.pdf')
 
   unless no_xml
-    @content_update = ContentUpdate.create! :checkout_target => checkout_target
+    content_update = ContentUpdate.create! :checkout_target => checkout_target
 
     # validate book's content against DocBook Relax-NG schema
     command = "java #{@xmx} -jar #{File.join(@prefix, 'bin', 'jing.jar')} " +
@@ -265,11 +251,12 @@ begin # catch any exceptions from anywhere, put stack trace in status file
 
 
     monolithic_html_file_name = File.join('output', 'index.html')
-    TocEntryGenerator.digest_book_html_into_database(monolithic_html_file_name)
+    TocEntryGenerator.digest_book_html_into_database(
+        monolithic_html_file_name, content_update)
 
 
     #### there should be no possibility of errors/failures after this point
-    @content_update.update_attribute(:successful, true)
+    content_update.update_attribute(:successful, true)
 
 
     ##########################################################################

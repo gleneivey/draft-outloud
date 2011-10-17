@@ -5,8 +5,9 @@ class TocEntryGenerator
       sect1 sect2 sect3 sect4 sect5 section simplesect
   )
 
-  def self.digest_book_html_into_database(monolithic_html_file_name)
-    @content_update = ContentUpdate.last
+  def self.digest_book_html_into_database(
+          monolithic_html_file_name, content_update)
+    @content_update = content_update
 
     monolithic_html_content = IO.read monolithic_html_file_name
     monolithic_html = Nokogiri::HTML monolithic_html_content do |config|
@@ -21,23 +22,39 @@ class TocEntryGenerator
 
 
     # normalize indentation numbers for imported TOC items
-    toc_entries = @content_update.toc_entries
-    used_levels = toc_entries.each.map(&:indent_level).uniq.sort
-    toc_entries.each do |entry|
-      old_level = entry.indent_level
-      new_level = old_level <= 15 ? used_levels.index(old_level) : nil
-      entry.update_attribute(:indent_level, new_level)
+    if @content_update
+      toc_entries = @content_update.toc_entries
+      used_levels = toc_entries.each.map(&:indent_level).uniq.sort
+      toc_entries.each do |entry|
+        old_level = entry.indent_level
+        new_level = old_level <= 15 ? used_levels.index(old_level) : nil
+        entry.update_attribute(:indent_level, new_level)
+      end
     end
   end
 
   private
 
+  def self.first_non_div_tag_under(parent_node)
+    parent_node.children.each do |node|
+      if node.type == 1 && node.name != 'div'
+        return node
+      else
+        maybe_node = first_non_div_tag_under node
+        return maybe_node if maybe_node
+      end
+    end
+
+    nil
+  end
+
   def self.toc_elements_from_html_to_db(parent_node)
+    return unless parent_node
     parent_node.children.each do |node|
       if node.type == 1 && node.name == 'div' &&
           TOC_CLASSES.include?(node['class']) && node['title'].present?
         anchor = node.css('a').first
-        tag = first_non_div_tag_under node
+        tag = TocEntryGenerator.first_non_div_tag_under node
         if tag
           indent_level = 20
           name = tag.name
