@@ -112,7 +112,7 @@ describe TocEntryGenerator do
         { :element => 'simplesect', :text => "Subsection 2",
           :anchor => 'sect1subsect2', :level => 1 }
     ]
-    TocEntry.all.each_with_index do |entry, i|
+    TocEntry.find(:all, :order => 'id desc', :limit => 4).reverse.each_with_index do |entry, i|
       entry.content_update.should == content_update
       entry.docbook_element.should == expected_entries[i][:element]
       entry.entry_text.should == expected_entries[i][:text]
@@ -219,16 +219,17 @@ describe TocEntryGenerator do
     HTML
     test_html html
 
+    new_entry_count = sample_content.length - 1
     content_update = ContentUpdate.create! :checkout_target => "master"
     lambda {
       TocEntryGenerator.digest_book_html_into_database(
           @temp_file_name, content_update)
-    }.should change { TocEntry.count }.by(sample_content.length - 1)
+    }.should change { TocEntry.count }.by(new_entry_count)
 
     content_update.reload.successful.should_not be_true
 
     level = starting_indent_level
-    TocEntry.all(:order => 'id').each_with_index do |entry, j|
+    TocEntry.find(:all, :order => 'id desc', :limit => new_entry_count).reverse.each_with_index do |entry, j|
       i = j+1
 
       entry.content_update.should == content_update
